@@ -1,80 +1,116 @@
-# avis (refactored)
+# **avis — Analyzing Evolving Stories in News Articles (Refactored)**
 
-This repository is a refactor of the original `avis-main` project into a
-maintainable Python package (no notebooks required to run core code).
+> **Research-driven NLP + Optimization for Story Evolution**
 
-The original repository mixed:
-- notebooks (analysis + experiments)
-- scripts with hard-coded relative paths
-- model logic without a clear module structure
+---
+## 🔹 Abstract (from the paper)
+> There is an overwhelming number of news articles published every day. Tracking how a news story *evolves over time* is difficult because similarity-based methods tend to circle around the same event instead of revealing its historical origins. This project implements and extends a framework that **mines historical news to detect the origin of events, segments timelines into coherent phases, and identifies the most relevant documents at each turning point**. The approach combines NLP preprocessing, topic modeling, and a continuous optimization formulation that balances **coherence, diffusion, temporal structure, and document relevance**. Quantitative metrics and human evaluations show that the method discovers statistically significant and meaningful storylines in reasonable time, with potential for predicting future entities in evolving stories.
 
-This refactor keeps **all original work** under `original/` and introduces a
-clean `src/` layout for reusable code.
+*(Summarized from Barranco et al., 2017) — see Fig. 1 in the paper for diffusion vs similarity-based storytelling.*
 
-## Methodology (what the code is doing)
+---
+## 🎯 What this project is about (for recruiters)
 
-At a high level, this project is about representing Danish news/article text as
-features, and then:
-1) clustering documents into themes/topics (KMeans over TF-IDF), and/or
-2) running supervised models (in the original scripts), and
-3) experimenting with search/sweep methods (beam search, parameter sweep) as
-notebook workflows.
+This repository is a **clean, production-style refactor** of a research prototype for:
 
-### Text processing
-- normalize tokens (lowercase, strip punctuation/digits)
-- remove Danish stopwords (bundled as `avis/data/stopwords_da.txt`)
-- output cleaned documents as strings
+- **News story evolution analysis**
+- **Entity-centric NLP and topic modeling (LDA, TF–IDF)**
+- **Graph/optimization-based storytelling (“connecting the dots”)**
+- **Continuous-time segmentation of document streams**
+- **Relevance-weighted document selection**
+- **Statistical validation and human-in-the-loop evaluation**
+- **Downstream prediction of future entities from past story evolution**
 
-### Vectorization (TF-IDF)
-- fit a `TfidfVectorizer` with configurable `max_df`, `min_df`, `ngram_range`, etc.
-- produce a document-term feature matrix
+If you care about keywords: **NLP, text mining, topic modeling, optimization, temporal modeling, document networks, L-BFGS-B, causal diffusion, information retrieval, explainable AI, data science.**
 
-### Clustering (KMeans)
-- fit KMeans on TF-IDF features
-- extract top terms per cluster to interpret learned topics
+---
+## 🧠 Conceptual Methodology (high-level, non-technical)
 
-## Repository structure
+### 1️⃣ Preprocessing (Fig. 2 — Framework Diagram)
+*(See the pipeline on page 3 of the paper)*
+- Extract named entities (persons, organizations, locations)
+- Represent documents with **TF–IDF over entities**
+- Fit **LDA topic models** to obtain document topic distributions
+- Filter candidate documents using **temporal + topical constraints** (KL-divergence threshold)
 
+### 2️⃣ Story Generation (Core Contribution)
+The system finds a sequence of **turning points in time** and assigns documents to time segments using a **smooth membership function** (Fig. 3 in the paper). It jointly optimizes:
+
+- **Incoherence (within segments)** — documents in the same phase should be similar
+- **Unconnectedness / Similarity penalty (across segments)** — different phases should represent different events
+- **Temporal penalty** — discourages grouping far-apart documents
+- **Overlap penalty** — prevents turning points from collapsing together (Fig. 4)
+- **Relevance weights** — highlights the most important documents per segment
+- **Uniformity penalty** — avoids trivial solutions (all documents selected or none)
+
+The final objective (Eq. 21) is optimized using **L-BFGS-B (bounded quasi-Newton)**.
+
+---
+## 📊 Key Results (visuals from the paper)
+
+### 🔹 Diffusion vs Similarity (Fig. 1, p.1)
+- **Diffusion-based approach** captures *smooth historical evolution* across different but related events.
+- **Similarity-based approach** tends to stay within a narrow topic window.
+
+### 🔹 Human Evaluation (Fig. 5, p.6)
+Users rated generated chains on:
+- Familiarity
+- Coherence
+- Relevance
+- Broadness
+
+Average scores were consistently **above 3/5**, indicating meaningful and interpretable storylines.
+
+### 🔹 Dispersion Comparison (Fig. 6, p.6)
+The proposed method achieves **higher dispersion coefficients** than:
+- K-means clustering
+- Pure similarity chaining
+
+This suggests better coverage of evolving events rather than repetition of similar articles.
+
+### 🔹 Case Study: Brexit Timeline (Fig. 7, p.7)
+Compared multiple objective formulations. The final diffusion-based method produced the **most coherent multi-event narrative**, linking:
+- Eurozone crisis → German austerity → EU tensions → Immigration → Brexit.
+
+### 🔹 Statistical Significance (Fig. 8, p.8)
+Turning points remained statistically significant across changes in:
+- Gamma variance (membership smoothness)
+- Topical divergence threshold
+- Overlap penalty
+
+### 🔹 Repeatability (Fig. 9, p.8)
+Multiple optimization runs yield **stable turning points**, especially with reasonable distance thresholds.
+
+### 🔹 Prediction Experiment (Fig. 10, p.9)
+Relevant past documents were used to **predict future entity weights** via linear regression. Even a simple model recovered key entities (e.g., *Paris, Belgium*) 4–10 days ahead.
+
+---
+## 🏗 Repository structure (clean, maintainable)
 ```
-avis-refactored-v2/
-├── src/
-│   └── avis/
-│       ├── nlp/
-│       │   ├── preprocess.py
-│       │   └── stopwords.py
-│       ├── models/
-│       │   ├── vectorize_tfidf.py
-│       │   └── kmeans_topics.py
-│       ├── experiments/
-│       │   ├── beamsearch.py
-│       │   └── parameter_search.py
-│       └── data/
-│           └── stopwords_da.txt
-├── original/
-│   └── (your original notebooks + scripts, unmodified)
+avis-refactored/
+├── src/avis/
+│   ├── nlp/           # tokenization, stopwords, preprocessing
+│   ├── models/        # TF–IDF, KMeans topic tools
+│   ├── experiments/   # beam search & parameter sweep scaffolding
+│   └── data/          # Danish stopwords
+├── original/          # your original notebooks (untouched)
 ├── pyproject.toml
 └── README.md
 ```
 
-## Install
-
-From the repo root:
-
+---
+## 🚀 Installation
 ```bash
 pip install -e .
 ```
 
-## Example usage
-
-### TF-IDF + KMeans topics
-
+## 🧪 Minimal example (TF–IDF + KMeans topics)
 ```python
 from avis.nlp.stopwords import load_danish_stopwords
 from avis.models.vectorize_tfidf import fit_tfidf, TfidfConfig
 from avis.models.kmeans_topics import fit_kmeans_topics, top_terms_per_cluster, KMeansTopicConfig
 
 stop = load_danish_stopwords()
-
 docs = [
     "Dette er en artikel om politik og økonomi...",
     "Sport og fodbold nyheder...",
@@ -85,13 +121,11 @@ model = fit_kmeans_topics(X, KMeansTopicConfig(n_clusters=2))
 print(top_terms_per_cluster(model, vectorizer, top_n=8))
 ```
 
-## About the experiments folder
+---
+## 🏁 Conclusion (from the paper)
+> The framework successfully uncovers the historical evolution of news stories from large archives. It not only reconstructs meaningful timelines but also enables **future entity prediction** from past diffusion patterns. The authors propose extending the work toward early-warning systems for emerging events and incorporating **interactive user feedback** to adapt the optimization to human expectations.
 
-The two experiment modules are currently **scaffolding only**:
-- `avis.experiments.beamsearch` corresponds to the notebook
-  `BEAMSEARCH_WITH_LOOKAHEAD_sigmoid.ipynb`
-- `avis.experiments.parameter_search` corresponds to
-  `Parameter_search_til_rapport.ipynb`
+---
+## 📚 Reference
+Barranco, R. C., Boedihardjo, A. P., & Hossain, M. S. (2017). *Analyzing Evolving Stories in News Articles*. ACM Conference.
 
-Porting the notebooks into these modules is the next step if you want a fully
-reproducible, CLI-driven pipeline.
