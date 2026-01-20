@@ -4,9 +4,9 @@
 
 ---
 ## 🔹 Abstract (from the paper)
-> There is an overwhelming number of news articles published every day. Tracking how a news story *evolves over time* is difficult because similarity-based methods tend to circle around the same event instead of revealing its historical origins. This project implements and extends a framework that **mines historical news to detect the origin of events, segments timelines into coherent phases, and identifies the most relevant documents at each turning point**. The approach combines NLP preprocessing, topic modeling, and a continuous optimization formulation that balances **coherence, diffusion, temporal structure, and document relevance**. Quantitative metrics and human evaluations show that the method discovers statistically significant and meaningful storylines in reasonable time, with potential for predicting future entities in evolving stories.
+> There is an overwhelming number of news articles published every day. Tracking how a news story *evolves over time* is difficult because similarity-based methods tend to circle around the same event instead of revealing its historical origins. This project implements and extends a framework that **mines historical news to detect the origin of events, segments timelines into coherent phases, and identifies the most relevant documents at each turning point**. The approach combines NLP preprocessing, topic modeling, and a continuous optimization formulation that balances **coherence, diffusion, temporal structure, and document relevance**. Quantitative metrics and human evaluations show that the method discovers statistically significant and meaningful storylines in reasonable time, with potential for predicting future entities in evolving stories. 
 
-*(Summarized from Barranco et al., 2017) — see Fig. 1 in the paper for diffusion vs similarity-based storytelling.*
+*(Summarized from Barranco et al., 2017)*
 
 ---
 ## 🎯 What this project is about (for recruiters)
@@ -21,68 +21,54 @@ This repository is a **clean, production-style refactor** of a research prototyp
 - **Statistical validation and human-in-the-loop evaluation**
 - **Downstream prediction of future entities from past story evolution**
 
-If you care about keywords: **NLP, text mining, topic modeling, optimization, temporal modeling, document networks, L-BFGS-B, causal diffusion, information retrieval, explainable AI, data science.**
+**Keywords:** NLP, text mining, topic modeling, constrained optimization, temporal modeling, document networks, L-BFGS-B, diffusion processes, information retrieval, explainable AI, data science.
 
 ---
-## 🧠 Conceptual Methodology (high-level, non-technical)
+## 🧠 Conceptual Methodology (high-level)
 
-### 1️⃣ Preprocessing (Fig. 2 — Framework Diagram)
-*(See the pipeline on page 3 of the paper)*
-- Extract named entities (persons, organizations, locations)
-- Represent documents with **TF–IDF over entities**
-- Fit **LDA topic models** to obtain document topic distributions
-- Filter candidate documents using **temporal + topical constraints** (KL-divergence threshold)
+### 1️⃣ Preprocessing (Framework)
+- Named-entity extraction (persons, organizations, locations)
+- TF–IDF representation over entities
+- LDA topic modeling to obtain document-topic distributions
+- Temporal + topical filtering of candidate documents
 
 ### 2️⃣ Story Generation (Core Contribution)
-The system finds a sequence of **turning points in time** and assigns documents to time segments using a **smooth membership function** (Fig. 3 in the paper). It jointly optimizes:
+The system identifies **turning points in time** and assigns documents to smooth temporal segments using a continuous membership function. The objective jointly balances:
 
 - **Incoherence (within segments)** — documents in the same phase should be similar
-- **Unconnectedness / Similarity penalty (across segments)** — different phases should represent different events
+- **Unconnectedness (across segments)** — different phases should represent different events
 - **Temporal penalty** — discourages grouping far-apart documents
-- **Overlap penalty** — prevents turning points from collapsing together (Fig. 4)
+- **Overlap penalty** — prevents turning points from collapsing together
 - **Relevance weights** — highlights the most important documents per segment
-- **Uniformity penalty** — avoids trivial solutions (all documents selected or none)
+- **Uniformity penalty** — avoids trivial solutions
 
-The final objective (Eq. 21) is optimized using **L-BFGS-B (bounded quasi-Newton)**.
+Optimization is performed with **L-BFGS-B**.
 
 ---
-## 📊 Key Results (visuals from the paper)
+## 📊 Figures from the paper (added visuals)
 
-### 🔹 Diffusion vs Similarity (Fig. 1, p.1)
-- **Diffusion-based approach** captures *smooth historical evolution* across different but related events.
-- **Similarity-based approach** tends to stay within a narrow topic window.
+### 🔹 Diffusion vs Similarity — long vs short histories
+![Diffusion vs Similarity](længerehist.png)
 
-### 🔹 Human Evaluation (Fig. 5, p.6)
-Users rated generated chains on:
-- Familiarity
-- Coherence
-- Relevance
-- Broadness
+This figure illustrates the core intuition of the project: diffusion-based storytelling can trace **longer, more semantically coherent historical chains**, while pure similarity tends to stay local and repetitive.
 
-Average scores were consistently **above 3/5**, indicating meaningful and interpretable storylines.
+---
+### 🔹 Beam Search Procedure
+![Beam Search](beamSearch233.drawio.png)
 
-### 🔹 Dispersion Comparison (Fig. 6, p.6)
-The proposed method achieves **higher dispersion coefficients** than:
-- K-means clustering
-- Pure similarity chaining
+This diagram shows how candidate story paths are expanded and pruned during **beam search**, balancing exploration of alternatives with computational tractability.
 
-This suggests better coverage of evolving events rather than repetition of similar articles.
+---
+### 🔹 Statistical Effect Size (Cohen’s d)
+![Cohen's d](Example_cohens_d.png)
 
-### 🔹 Case Study: Brexit Timeline (Fig. 7, p.7)
-Compared multiple objective formulations. The final diffusion-based method produced the **most coherent multi-event narrative**, linking:
-- Eurozone crisis → German austerity → EU tensions → Immigration → Brexit.
+Effect size analysis demonstrates that improvements over baselines are not only statistically significant but also **practically meaningful**.
 
-### 🔹 Statistical Significance (Fig. 8, p.8)
-Turning points remained statistically significant across changes in:
-- Gamma variance (membership smoothness)
-- Topical divergence threshold
-- Overlap penalty
+---
+### 🔹 Ablation / Sensitivity Plot
+![Ablation Plot](abplot.png)
 
-### 🔹 Repeatability (Fig. 9, p.8)
-Multiple optimization runs yield **stable turning points**, especially with reasonable distance thresholds.
-
-### 🔹 Prediction Experiment (Fig. 10, p.9)
-Relevant past documents were used to **predict future entity weights** via linear regression. Even a simple model recovered key entities (e.g., *Paris, Belgium*) 4–10 days ahead.
+This plot summarizes how sensitive the solution is to key hyperparameters (e.g., distance threshold, overlap penalty, topic divergence). Stable performance across settings indicates a robust method.
 
 ---
 ## 🏗 Repository structure (clean, maintainable)
