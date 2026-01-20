@@ -1,0 +1,247 @@
+Cluster 0
+ thisted
+ ifølge
+ sidste
+ blevet
+ ritzau
+ tid
+ nielsen
+ procent
+ kommune
+ sagde
+
+
+Cluster 1
+ mulighed
+ give
+ forskellige
+ jensen
+ kl
+ bedre
+ samt
+ formand
+ taget
+ tager
+
+
+Cluster 2
+ side
+ thisted
+ børn
+ kommune
+ vej
+ direktør
+ onsdag
+ penge
+ samtidig
+ blevet
+
+
+Cluster 3
+ fortæller
+ folk
+ samtidig
+ side
+ mennesker
+ taget
+ mener
+ lørdag
+ måde
+ svært
+
+
+Cluster 4
+ aalborg
+ københavn
+ nordjyske
+ fredag
+ tid
+ vej
+ kl
+ nielsen
+ blevet
+ fået
+
+
+Cluster 5
+ adresse
+ telefon
+ email
+ aalborg
+ thisted
+ hjørring
+ juni
+ gange
+ give
+ gode
+
+
+Cluster 6
+ lørdag
+ står
+ juni
+ mennesker
+ danske
+ gange
+ stedet
+ sidste
+ blevet
+ fortæller
+
+
+Cluster 7
+ juni
+ kl
+ oplyser
+ henrik
+ samt
+ frem
+ jensen
+ lørdag
+ fortæller
+ thisted
+
+
+Cluster 8
+ årige
+ oplyser
+ blevet
+ københavn
+ ritzau
+ samt
+ fortæller
+ står
+ svært
+ gange
+
+
+Cluster 9
+ kroner
+ millioner
+ millioner kroner
+ betale
+ regeringen
+ aftalen
+ penge
+ børn
+ procent
+ ritzau
+
+
+Cluster 10
+ danske
+ danmark
+ regeringen
+ procent
+ dansk
+ inden
+ blevet
+ nordjylland
+ sidste
+ forhold
+
+
+Cluster 11
+ samtidig
+ mulighed
+ dansk
+ danmark
+ indland
+ michael
+ aftalen
+ regeringen
+ blevet
+ københavn
+
+
+Cluster 12
+ kr
+ samt
+ tid
+ penge
+ danmark
+ formand
+ børn
+ fået
+ blevet
+ procent
+
+
+Cluster 13
+ onsdag
+ oplyser
+ landet
+ blevet
+ tale
+ mener
+ ifølge
+ henrik
+ stedet
+ nordjylland
+
+
+Cluster 14
+ hjørring
+ kommune
+ vendsyssel
+ fredag
+ rigtig
+ formand
+ måde
+ fortæller
+ fået
+ mulighed
+
+
+Cluster 15
+ danmark
+ landet
+ tager
+ eu
+ viser
+ danske
+ procent
+ blevet
+ lyder
+ dansk
+
+
+Cluster 16
+ formand
+ sidste
+ dansk
+ thomas
+ sagde
+ thisted
+ aalborg
+ kommune
+ nordjyske
+ tid
+
+
+Cluster 17
+ børn
+ unge
+ fredag
+ arbejde
+ formand
+ plads
+ ifølge
+ fortæller
+ inden
+ fået
+
+
+Cluster 18
+ kirke
+ unge
+ københavn
+ juni
+ ritzau
+ henrik
+ kommune
+ lørdag
+ forskellige
+ aalborg
+
+
